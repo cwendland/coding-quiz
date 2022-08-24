@@ -33,10 +33,12 @@ const questData = [
 var initMessage = 'Try to answer the following code-related questions within the time limit.\nKeep in mind that incorrect answers will penalize your score/time\nby ten seconds!';
 
 
-var currentQuestion = 0;
+var currQuestion = 0;
+var secondsLeft = 0;
 var questionEl = document.getElementById('question');
 var containerEl = document.getElementById('container');
 var choiceList = document.getElementById('choices');
+var timeEl = document.getElementById('timer');
 
 function init() {
     var msgEl = document.createElement('p');
@@ -45,6 +47,7 @@ function init() {
     containerEl.appendChild(msgEl);
 
     questionEl.textContent = 'Coding Quiz Challenge';
+    questionEl.setAttribute('style', 'font-size: larger; font-weight: bolder; text-align: center;');
 
     var startButton = document.createElement('button');
     startButton.setAttribute('id', 'start-button');
@@ -52,18 +55,49 @@ function init() {
     containerEl.appendChild(startButton);
 }
 
+
+function startQuiz() {
+    document.getElementById('start-button').remove();
+    document.getElementById('msg').remove();
+
+    populateQuestion();
+    secondsLeft = 75;
+    setTime();
+}
+
+function setTime() {
+    // Sets interval in variable
+    var timerInterval = setInterval(function() {
+      secondsLeft--;
+      timeEl.textContent = 'Time: ' + secondsLeft;
+  
+      if(secondsLeft === 0) {
+        // Stops execution of action at set interval
+        clearInterval(timerInterval);
+        // Calls function to create and append image
+        endQuiz();
+      }
+  
+    }, 1000);
+  }
+
 function answerClick() {
 
 }
 
-function startQuiz() {
-    containerEl.getElementById('start-button').remove();
-    containerEl.getElementById('msg').remove();
+function populateQuestion() {
+    questionEl.setAttribute('style', 'font-size: 20px; font-weight: bolder; text-align: left;');
+    questionEl.textContent = questData[currQuestion].question;
 
-    populateQuestion()
+    for (var i = 0; i < questData[currQuestion].answers.length; i++) {
+        var answerButton = document.createElement('button')
+        answerButton.setAttribute('class', 'answer-button');
+        answerButton.textContent = questData[currQuestion].answers[i];
+        choiceList.appendChild(answerButton);
+    }
 }
 
-function populateQuestion() {
+function endQuiz() {
 
 }
 

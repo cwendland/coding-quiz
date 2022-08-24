@@ -29,11 +29,32 @@ body {
 ul {
     list-style: none;
     padding-left: 0px;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 p {
     text-align: center;
     padding-bottom: 10px;
+}
+
+.answer-button {
+    flex: 0 1 40px;
+    background: darkslateblue;
+    color: white;
+    padding: 6px 10px;
+    border: 10px darkslateblue;
+    margin: 10px;
+    margin-left: 0px;
+    border-radius: 10px;
+}
+
+#timer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 20px;
+    padding: 12px 24px;
 }
 
 #container {
@@ -46,6 +67,7 @@ p {
 #question {
     font-size: larger;
     font-weight: bolder;
+    text-align: left;
 }
 
 #top-left {
