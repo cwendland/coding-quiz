@@ -53,6 +53,7 @@ function init() {
     startButton.setAttribute('id', 'start-button');
     startButton.textContent = 'Start Quiz';
     containerEl.appendChild(startButton);
+    document.getElementById('start-button').addEventListener('click', startQuiz);
     questionsCorrect = 0;
 }
 
@@ -147,6 +148,7 @@ function endQuiz(event) {
     inputMsg.appendChild(inputButton);
 
     inputButton.addEventListener('click', saveScore)
+    document.getElementById('timer').remove();
 }
 
 function saveScore(event) {
@@ -157,7 +159,7 @@ function saveScore(event) {
         highScoresArr.push(initials + ' ' + questionsCorrect + '/6');
     }else {
         if (localStorage.getItem('highscores').includes(initials + ' ' + questionsCorrect + '/6')){
-            init();
+
         } else {
             var highScoresArr = new Array(localStorage.getItem('highscores'));
             highScoresArr.push(initials + ' ' + questionsCorrect + '/6');
@@ -165,10 +167,10 @@ function saveScore(event) {
     }
 
     localStorage.setItem('highscores', highScoresArr);
+    document.getElementById('end-msg').remove();
     event.target.parentNode.remove();
     init();
 }
 
 init();
 var test = ['6'];
-document.getElementById('start-button').addEventListener('click', startQuiz);
