@@ -1,3 +1,4 @@
+// Array for the question data
 const questData = [
     {
         'question': 'What tag defines the body of the HTML document, and usually includes all the contents such as the text, hyperlinks, images, tables, lists, and more?',
@@ -32,7 +33,7 @@ const questData = [
 ];
 var initMessage = 'Try to answer the following code-related questions within the time limit.\nKeep in mind that incorrect answers will penalize your score/time\nby ten seconds!';
 
-
+// Initialize and define global variables and references to DOM elements
 var currQuestion = 0;
 var secondsLeft = 0;
 var questionsCorrect = 0;
@@ -40,6 +41,8 @@ var questionEl = document.getElementById('question');
 var containerEl = document.getElementById('container');
 var timeEl = document.getElementById('timer');
 
+
+//Start the page with the welcome page content and create a listener on the start button
 function init() {
     var msgEl = document.createElement('p');
     msgEl.setAttribute('id', 'msg');
@@ -57,7 +60,7 @@ function init() {
     questionsCorrect = 0;
 }
 
-
+// Once the start button is clicked this function is called
 function startQuiz() {
     document.getElementById('start-button').remove();
     document.getElementById('msg').remove();
@@ -67,6 +70,7 @@ function startQuiz() {
     setTime();
 }
 
+//Sets the timer in the top right to work
 function setTime() {
     // Sets interval in variable
     var timerInterval = setInterval(function() {
@@ -83,9 +87,9 @@ function setTime() {
     }, 1000);
   }
 
+  //On answer click determine if the right answer was chosen using data attrivutes and end quiz if out of questions
 function answerClick(event) {
     if (currQuestion === questData.length) {
-        console.log('REACHED INSIDE OF IF');
         endQuiz(event); 
         return 0;
     }
@@ -101,6 +105,7 @@ function answerClick(event) {
     event.target.parentNode.remove();
 }
 
+//Populate the page with the next question
 function populateQuestion() {
 
     questionEl.setAttribute('style', 'font-size: 20px; font-weight: bolder; text-align: left;');
@@ -124,6 +129,7 @@ function populateQuestion() {
     currQuestion++;
 }
 
+//Perform the end quiz functions and take in the high score data
 function endQuiz(event) {
     currQuestion = 0;
     event.target.parentNode.remove();
@@ -151,13 +157,17 @@ function endQuiz(event) {
     document.getElementById('timer').remove();
 }
 
+
+//Save the score to local storage if it is not already there
 function saveScore(event) {
     var initials = document.getElementById('initial-input').value;
 
+    //Check if the localstorage is empty
     if (!localStorage.getItem('highscores')) {
         var highScoresArr = new Array();
         highScoresArr.push(initials + ' ' + questionsCorrect + '/6');
     }else {
+        //Check if the score is already in the arrray
         if (JSON.parse(localStorage.getItem('highscores')).includes(initials + ' ' + questionsCorrect + '/6')){
 
         } else {
