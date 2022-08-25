@@ -158,15 +158,15 @@ function saveScore(event) {
         var highScoresArr = new Array();
         highScoresArr.push(initials + ' ' + questionsCorrect + '/6');
     }else {
-        if (localStorage.getItem('highscores').includes(initials + ' ' + questionsCorrect + '/6')){
+        if (JSON.parse(localStorage.getItem('highscores')).includes(initials + ' ' + questionsCorrect + '/6')){
 
         } else {
-            var highScoresArr = new Array(localStorage.getItem('highscores'));
+            var highScoresArr = JSON.parse(localStorage.getItem('highscores'));
             highScoresArr.push(initials + ' ' + questionsCorrect + '/6');
         }
     }
 
-    localStorage.setItem('highscores', highScoresArr);
+    localStorage.setItem('highscores', JSON.stringify(highScoresArr));
     document.getElementById('end-msg').remove();
     event.target.parentNode.remove();
     init();

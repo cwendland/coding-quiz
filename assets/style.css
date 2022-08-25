@@ -59,6 +59,17 @@ button:hover {
     border-radius: 10px;
 }
 
+#big-text {
+    font-weight: bolder;
+    font-size: 20px;
+}
+
+#highscores {
+    list-style: none;
+    padding-left: none;
+    display: block;
+}
+
 #timer {
     position: absolute;
     top: 0;
