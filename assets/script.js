@@ -35,9 +35,9 @@ var initMessage = 'Try to answer the following code-related questions within the
 
 var currQuestion = 0;
 var secondsLeft = 0;
+var questionsCorrect = 0;
 var questionEl = document.getElementById('question');
 var containerEl = document.getElementById('container');
-var choiceList = document.getElementById('choices');
 var timeEl = document.getElementById('timer');
 
 function init() {
@@ -53,6 +53,7 @@ function init() {
     startButton.setAttribute('id', 'start-button');
     startButton.textContent = 'Start Quiz';
     containerEl.appendChild(startButton);
+    questionsCorrect = 0;
 }
 
 
@@ -61,7 +62,7 @@ function startQuiz() {
     document.getElementById('msg').remove();
 
     populateQuestion();
-    secondsLeft = 75;
+    secondsLeft = 90;
     setTime();
 }
 
@@ -81,23 +82,60 @@ function setTime() {
     }, 1000);
   }
 
-function answerClick() {
+function answerClick(event) {
+    if (currQuestion === questData.length) {
+        console.log('REACHED INSIDE OF IF');
+        endQuiz(event); 
+        return 0;
+    }
+    console.log('test');
+    if (event.target.getAttribute('data-corr')) {
+        questionsCorrect++;
+        populateQuestion();
+    } else {
+        secondsLeft = secondsLeft - 10;
+        populateQuestion();
+    }
 
+    event.target.parentNode.remove();
 }
 
 function populateQuestion() {
+
     questionEl.setAttribute('style', 'font-size: 20px; font-weight: bolder; text-align: left;');
     questionEl.textContent = questData[currQuestion].question;
+    var choiceList = document.createElement('ul');
+    choiceList.setAttribute('id', 'choices');
+    containerEl.appendChild(choiceList);
 
     for (var i = 0; i < questData[currQuestion].answers.length; i++) {
         var answerButton = document.createElement('button')
         answerButton.setAttribute('class', 'answer-button');
+
+        if (questData[currQuestion].correctAns === i) 
+        {answerButton.setAttribute('data-corr', 'true');} 
+        else {answerButton.setAttribute('data-corr', 'false');}
+
         answerButton.textContent = questData[currQuestion].answers[i];
         choiceList.appendChild(answerButton);
+        answerButton.addEventListener('click', answerClick);
     }
+    currQuestion++;
 }
 
-function endQuiz() {
+function endQuiz(event) {
+    currQuestion = 0;
+    event.target.parentNode.remove();
+
+    questionEl.textContent = 'All done!';
+    var endMsg = document.createElement('p');
+    endMsg.setAttribute('id', 'msg');
+    endMsg.textContent = 'Your final score is' + questionsCorrect + '/6';
+    containerEl.append(endMsg);
+
+}
+
+function saveScore() {
 
 }
 
