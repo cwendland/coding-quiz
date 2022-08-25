@@ -88,8 +88,8 @@ function answerClick(event) {
         endQuiz(event); 
         return 0;
     }
-    console.log('test');
-    if (event.target.getAttribute('data-corr')) {
+
+    if (event.target.getAttribute('data-corr') == 'true') {
         questionsCorrect++;
         populateQuestion();
     } else {
@@ -129,20 +129,46 @@ function endQuiz(event) {
 
     questionEl.textContent = 'All done!';
     var endMsg = document.createElement('p');
-    endMsg.setAttribute('id', 'msg');
-    endMsg.textContent = 'Your final score is' + questionsCorrect + '/6';
-    containerEl.append(endMsg);
+    endMsg.setAttribute('id', 'end-msg');
+    endMsg.textContent = 'Your final score is ' + questionsCorrect + '/6';
+    containerEl.appendChild(endMsg);
 
+    var inputMsg = document.createElement('p');
+    inputMsg.setAttribute('class', 'msg');
+    inputMsg.textContent = 'Input Initials: ';
+    containerEl.appendChild(inputMsg);
+
+    var inputForm = document.createElement('input');
+    inputForm.setAttribute('id', 'initial-input');
+    inputMsg.appendChild(inputForm);
+
+    var inputButton = document.createElement('button');
+    inputButton.textContent = 'Submit';
+    inputMsg.appendChild(inputButton);
+
+    inputButton.addEventListener('click', saveScore)
 }
 
-function saveScore() {
+function saveScore(event) {
+    var initials = document.getElementById('initial-input').value;
 
+    if (!localStorage.getItem('highscores')) {
+        var highScoresArr = new Array();
+        highScoresArr.push(initials + ' ' + questionsCorrect + '/6');
+    }else {
+        if (localStorage.getItem('highscores').includes(initials + ' ' + questionsCorrect + '/6')){
+            init();
+        } else {
+            var highScoresArr = new Array(localStorage.getItem('highscores'));
+            highScoresArr.push(initials + ' ' + questionsCorrect + '/6');
+        }
+    }
+
+    localStorage.setItem('highscores', highScoresArr);
+    event.target.parentNode.remove();
+    init();
 }
-
-function resetPage() {
-
-}
-
 
 init();
+var test = ['6'];
 document.getElementById('start-button').addEventListener('click', startQuiz);

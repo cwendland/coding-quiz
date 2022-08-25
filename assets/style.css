@@ -44,6 +44,10 @@ button:hover {
     cursor: pointer;
 }
 
+#end-msg {
+    text-align: left;
+}
+
 .answer-button {
     flex: 0 1 40px;
     background: darkslateblue;
